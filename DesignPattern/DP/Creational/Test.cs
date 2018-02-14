@@ -147,6 +147,49 @@ namespace DesignPattern.DP.Creational
 
     #endregion
 
+    #region State
+
+    public abstract class State
+    {
+        public abstract string DoIt(Context x);
+    }
+
+
+    public class FullState : State
+    {
+
+        public override string DoIt(Context x)
+        {
+            return x.DoIt();
+        }
+    }
+
+    public class Empty : State
+    {
+
+        public override string DoIt(Context x)
+        {
+            return x.DoIt();
+        }
+    }
+
+    public class Context
+    {
+        private State s;
+
+        public Context(State x)
+        {
+            x = s;
+        }
+
+        public string DoIt()
+        {
+            return s.DoIt();
+        }
+    }
+
+    #endregion
+
     public class Test
     {
 

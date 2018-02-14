@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 using DesignPattern.DP.Behavioral.Observer.Observer;
 using DesignPattern.DP.Behavioral.Observer.Subject;
 using DesignPattern.DP.Behavioral.State;
@@ -16,15 +11,18 @@ using DesignPattern.DP.Creational.Builder.InvoiceBuilder.Concrete;
 using DesignPattern.DP.Creational.Builder.InvoiceBuilder.Director;
 using DesignPattern.DP.Creational.Factory.AirlineFactory.Creator.Concrete;
 using DesignPattern.DP.Creational.Prototype.Concrete;
-using DesignPattern.DP.Structural;
 using DesignPattern.DP.Structural.Adapter.Adapter;
 using DesignPattern.DP.Structural.Adapter.Target;
+using DesignPattern.DP.Structural.Bridge.Abstract;
+using DesignPattern.DP.Structural.Bridge.ConcreteImplementor;
+using DesignPattern.DP.Structural.Bridge.RefinedAbstraction;
 using DesignPattern.DP.Structural.Composite.Composite;
 using DesignPattern.DP.Structural.Composite.Leaf;
-using DesignPattern.DP.Structural.Composite.xSample;
+using DesignPattern.DP.Structural.Decorator.Component;
+using DesignPattern.DP.Structural.Decorator.ConcreteComponent;
+using DesignPattern.DP.Structural.Decorator.ConcreteDecorator;
 using DesignPattern.DP.Structural.Facade;
 using DesignPattern.DP.Structural.Proxy.Proxy;
-using DesignPattern.DP.Structural.Proxy.xSample;
 
 namespace DesignPattern
 {
@@ -58,6 +56,10 @@ namespace DesignPattern
             //CompositePattern();
 
             //ProxyPattern();
+
+            //DecoratorPattern();
+
+            //BridgePattern();
 
             Console.ReadLine();
 
@@ -239,6 +241,57 @@ namespace DesignPattern
 
             proxyClient.GetData();
 
+        }
+
+        #endregion
+
+        #region DecoratorPattern
+
+        private static void DecoratorPattern()
+        {
+            // Let us create a Simple Cake Base first
+            CakeBase cBase = new CakeBase();
+            PrintProductDetails(cBase);
+
+            // Lets add cream to the cake
+            CreamDecorator creamCake = new CreamDecorator(cBase);
+            PrintProductDetails(creamCake);
+
+            // Let now add a Cherry on it
+            CherryDecorator cherryCake = new CherryDecorator(creamCake);
+            PrintProductDetails(cherryCake);
+
+            // Lets now create a simple Pastry
+            PastryBase pastry = new PastryBase();
+            PrintProductDetails(pastry);
+
+            // Lets just add cream and cherry only on the pastry 
+            CreamDecorator creamPastry = new CreamDecorator(pastry);
+            CherryDecorator cherryPastry = new CherryDecorator(creamPastry);
+            PrintProductDetails(cherryPastry);
+        }
+
+        private static void PrintProductDetails(BakeryComponent product)
+        {
+            Console.WriteLine(); // some whitespace for readability
+            Console.WriteLine("Item: {0}, Price: {1}", product.GetName(), product.GetPrice());
+        }
+
+        #endregion
+
+        #region BridgePattern
+
+        private static void BridgePattern()
+        {
+            SendData _sendData = new SendEmail();
+
+            //Set Webservice as reference for sending Email
+            _sendData._IBridgeComponents = new WebService();
+            _sendData.Send();
+
+            //SetAPI as reference for sending Email
+            _sendData._IBridgeComponents = new DP.Structural.Bridge.ConcreteImplementor.API();
+            _sendData.Send();
         }
 
         #endregion

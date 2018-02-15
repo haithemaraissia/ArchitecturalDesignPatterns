@@ -184,7 +184,7 @@ namespace DesignPattern.DP.Creational
 
         public string DoIt()
         {
-            return s.DoIt();
+            return s.DoIt(this);
         }
     }
 
